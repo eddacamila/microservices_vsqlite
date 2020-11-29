@@ -3,7 +3,7 @@ jobs:
   build:
     docker:
       - image: circleci/python:3.8
-    working_directory: ~/microservces_vsqlite/pedidos
+    working_directory: ~/microservces_vsqlite
     steps:
       # Step 1: obtain repo from GitHub
       - checkout
@@ -20,6 +20,8 @@ jobs:
           name: run test
           command: |
             . venv/bin/activate
+            pwd
+            cd pedidos
             python test_pedidos.py
       # Step 4: behave test
       # - run:
