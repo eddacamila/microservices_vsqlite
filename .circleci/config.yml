@@ -22,6 +22,7 @@ jobs:
             . venv/bin/activate
             pwd
             cd pedidos
+            python app.py
             python test_pedidos.py
       # Step 4: behave test
       # - run:

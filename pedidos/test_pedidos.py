@@ -2,6 +2,7 @@ import os
 import sys
 import unittest
 import flask_testing
+from flask_sqlalchemy import SQLAlchemy
 
 PACKAGE_PARENT = '..'
 SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
@@ -15,6 +16,14 @@ TEST_DB = 'test.db'
 
 class BasicTests(flask_testing.TestCase):
 
+    def setUp(self):
+        project_dir = os.path.dirname(os.path.abspath(__file__))
+        database_file = "sqlite:///{}".format(os.path.join(project_dir, "pedidos.db"))
+        app.config["SQLALCHEMY_DATABASE_URI"] = database_file
+        app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+        db = SQLAlchemy(app)
+
 
     def create_app(self):
         return app
@@ -23,10 +32,6 @@ class BasicTests(flask_testing.TestCase):
         response=self.client.get('/',content_type='html/text')
         self.assertEqual(response.status,'404 NOT FOUND')
 
-    def test_get(self):
-        with app.test_client() as test_client:
-            response=test_client.get('/pedidos')
-            self.assertEqual(response.status_code,200)
     
     def test_post(self):
         with app.test_client() as test_client:
@@ -41,6 +46,10 @@ class BasicTests(flask_testing.TestCase):
             )
         self.assertEqual(response.status_code,200)
     
+    def test_get(self):
+        with app.test_client() as test_client:
+            response=test_client.get('/pedidos')
+            self.assertEqual(response.status_code,200)
         
     ############################
     #### setup and teardown ####
