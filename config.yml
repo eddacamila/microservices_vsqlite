@@ -1,0 +1,29 @@
+version: 2.1
+jobs:
+  build:
+    docker:
+      - image: circleci/python:3.8
+    working_directory: ~/microservices_shop
+    steps:
+      # Step 1: obtain repo from GitHub
+      - checkout
+      # Step 2: create virtual env and install dependencies
+      - run:
+          name: install dependencies
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install --upgrade pip
+            pip install -r requirements.txt
+      # Step 3: pytest
+      - run:
+          name: run test
+          command: |
+            . venv/bin/activate
+            pytest
+      # Step 4: behave test
+      - run:
+          name: behave test
+          command: |
+            . venv/bin/activate
+            behave
