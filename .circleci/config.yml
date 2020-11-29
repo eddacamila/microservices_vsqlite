@@ -24,7 +24,7 @@ jobs:
             cd pedidos
             nohup python app.py &
             python test_pedidos.py
-      Step 4: behave test
+      #Step 4: behave test
       - run:
           name: behave test
           command: |
